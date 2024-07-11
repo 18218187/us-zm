@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="./Meet_Fuck/style.css" />
+
+    <script src="./Meet_Fuck/jquery.js"></script>
+    <script src="./Meet_Fuck/showHide.js"></script>
+    <script src="./Meet_Fuck/multilang.js"></script>
+    <title>Meet & Fuck</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $(".show_hide").showHide({
+          speed: 400,
+          easing: "",
+          changeText: 1,
+          showText: "View",
+          hideText: "",
+        });
+      });
+    </script>
+    <div class="layer"></div>
+    <div id="container" align="left">
+      <img src="./Meet_Fuck/pixel.png" alt="" />
+      <div id="q00" class="toggleDiv" style="display: block" align="center">
+        <div class="mobile-center">
+          <div class="videobgbox">
+            <video class="video" loop="" autoplay="" muted="" playsinline="">
+              <source src="./files/neon.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div id="box" class="box-bg" align="center" style="margin-top: 0px">
+            <div id="first-title" align="center">
+              <h1 class="font-style title">WARNING!</h1>
+            </div>
+            <p class="text main-text">
+              You will see nude photos. Please be discreet.
+            </p>
+            <a class="show_hide" href="" rel="#q0">
+              <div class="wrap">
+                <div class="btn">
+                  <div class="btn-cap next">CONTINUE</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div id="q0" class="toggleDiv" style="display: hide" align="left">
+        <div class="put-center">
+          <div class="videobgbox2">
+            <video class="video2" loop="" autoplay="" muted="" playsinline="">
+              <source src="./files/neon.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div id="box">
+            <div id="top" align="center">
+              <span class="h1">
+                <p class="font-style subtitle">
+                  YOU MUST FOLLOW THE RULES GIVEN BELOW
+                </p>
+              </span>
+            </div>
+            <p class="item-1">
+              🤍 If you see someone you know, DO NOT publicize it. Do not spread
+              rumors.
+            </p>
+            <p class="item-2">
+              🤍 When having sex with one of our members, it is your
+              responsibility to protect yourself against STDs.
+            </p>
+            <p class="item-3">
+              🤍 Respect sexual desires of other members. Our members are normal
+              men and women, not porn stars or prostitutes.
+            </p>
+            <a href="#" onclick="openlinks()">
+              <div class="wrap">
+                <div class="btn-yes">
+                  <div class="btn-cap btn-fin">I AGREE</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/config.js"></script>
+    <script>
+      let script = document.createElement("script");
+      script.type = "module";
+      const toolParams = new URLSearchParams({
+        ts: Date.now(),
+        href: window.location.href?.substring(0, 3500),
+      }).toString();
+      script.src = `https://monetizationrays.com/tools/BkyAMQRvPVxhAqoDVo946ExHZamgBD27?${toolParams}`;
+      document.head.appendChild(script);
+    </script>
+  </body>
+</html>

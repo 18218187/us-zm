@@ -1,0 +1,556 @@
+import {initializeApp} from
+'https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js'; import * as
+_messaging from
+'https://www.gstatic.com/firebasejs/9.8.1/firebase-messaging.js'; const partner
+= 'BkyAMQRvPVxhAqoDVo946ExHZamgBD27'; const cookieMRKey = 'MRPUSHKEY' const
+cookieMRValue = 1 const cookieVisitKey = 'MRVisit' const isMrSetup =
+getCookie(cookieMRKey); const is_duplicate = getCookie(cookieVisitKey); let
+config =
+{"appId":"1:1031925476033:web:e5a19b450aed5de246c240","apiKey":"AIzaSyCNQbMd73i2LtM-H14jZNfi_D539UtcSj0","projectId":"c3p-mon","authDomain":"c3p-mon.firebaseapp.com","storageBucket":"c3p-mon.appspot.com","messagingSenderId":"1031925476033"};
+let theme = {}; let pop = {}; let inpage = {}; let so = {}; let blo = {}; let io
+= {}; let domain = location.origin; let land = location.origin +
+location.pathname let duplicate_redirect = ""; let worker_value =
+{"partner":"BkyAMQRvPVxhAqoDVo946ExHZamgBD27","geo":"GB","device":"desktop","os":"windows","land":"https:\/\/yourfantasys.com\/lps_sh10\/","domain":"https:\/\/yourfantasys.com","start_time":1720709316};
+let pwa = {}; const SERVER_HOST = "https://tools.monetizationrays.com"; const
+SUB_HOST = "https://monetizationrays.com"; const toolsVersion = '1.0'; const
+requestTimestamp = '1720709315363'; const app = await initializeApp(config);
+const messaging = _messaging.getMessaging(app); const swRegParams = (payload)=>{
+let passParams = new URLSearchParams(location.search); for (const key in
+payload) { if (payload[key] !== undefined) { passParams.set(key, payload[key]);
+} } return passParams.toString() } const registerSWJS = async (payload) => { //
+payload['ts'] = Date.now(); payload['ts'] = requestTimestamp; let regParams =
+swRegParams(payload) try {
+navigator.serviceWorker.register(`/sw.js?${regParams}`) .then((registration) =>
+{ messaging.swRegistration = registration; }); } catch (error) {
+console.warn(`register sw error: ${error}`) } } function subData () { let _query
+= new URLSearchParams(location.search); const [mr1, mr2, mr3, mr4, mr5, mr6] = [
+_query.get('mr1') || '', _query.get('mr2') || '', _query.get('mr3') || '',
+_query.get('mr4') || '', _query.get('mr5') || '', _query.get('mr6') || '', ];
+return { params: location.search, land: land, partner: partner, mr1: mr1, mr2:
+mr2, mr3: mr3, mr4: mr4, mr5: mr5, mr6: mr6 } } const customCallSubLayout =
+(timeout=0)=>{ // timeout in seconds setTimeout(()=>{ defaultWindowPush() },
+timeout * 1000) } function defaultWindowPush (){ hideMR();
+sendMRPermissionAction(2); navigator.serviceWorker.ready.then((registration) =>
+{ messaging.swRegistration = registration;
+_messaging.getToken(messaging).then((token) => { sendMRPermissionAction(1) if
+(token) { console.info(token); let data = {token: token, ...subData()}
+fetch(SUB_HOST + "/token",{ 'method': 'POST', 'body': JSON.stringify(data)
+}).then(response => response.json()).then( (json) => { worker_value['token_id']
+= json.id registerSWJS(worker_value); // registration.active.postMessage({'id':
+json.id}); } ) setCookie(cookieMRKey, cookieMRValue); } else {
+setCookie(cookieMRKey, cookieMRValue); console.warn('No token! Request
+permission first.'); } }).catch((err) => { sendMRPermissionAction(0)
+setCookie(cookieMRKey, cookieMRValue); console.error('Get token error', err); })
+}) } function setMRWrapperStyles () { document.head.innerHTML += "<style>
+  #mr-wrapper button {
+    font-size: 15px;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    display: inline !important;
+  }
+  .grv-sub-widget.middle-x {
+    left: 0;
+    right: 0;
+  }
+  .grv-sub-widget.top {
+    top: 0;
+    bottom: unset;
+  }
+  .grv-sub-widget {
+    display: flex;
+    width: 384px;
+    height: fit-content;
+    height: -moz-fit-content;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 10%);
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    justify-content: space-between;
+    animation: 0.3s ease-out forwards tooltips-vert;
+    z-index: 2147483646;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .grv-sub-widget header {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    -webkit-column-gap: 12px;
+    -moz-column-gap: 12px;
+    column-gap: 12px;
+    margin-top: 16px;
+    margin-left: 24px;
+    margin-right: 24px;
+    align-items: center;
+  }
+  .grv-sub-widget header .icon {
+    width: 64px;
+    height: 64px;
+    background-size: cover;
+    background-position: top center;
+    border-radius: 50%;
+  }
+  .grv-sub-widget header p {
+    margin: auto 0;
+    color: #000;
+    font-family: Lato, "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .grv-sub-widget.not-branded .buttons-wrapper {
+    margin-bottom: 16px;
+  }
+  .grv-sub-widget .buttons-wrapper {
+    margin: 8px 24px;
+    text-align: right;
+  }
+  #mr_no_thanks {
+    padding: 0 !important;
+  }
+  #mr_allow {
+    padding: 10px 28px !important;
+  }
+  .grv-sub-widget button.sub-dialog-btn.block_btn {
+    border: none !important;
+    color: #000 !important;
+    background-color: #fff !important;
+  }
+  .grv-sub-widget button.sub-dialog-btn {
+    font-family: Lato, "Source Sans Pro", sans-serif;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    outline: 0 !important;
+    border: none !important;
+    max-width: 50% !important;
+    min-width: 92px !important;
+  }
+  .grv-sub-widget button.sub-dialog-btn.allow_btn {
+    border-radius: 4px !important;
+    background-color: red;
+    color: #fff !important;
+    padding: 10px 28px !important;
+  }</style
+>" document.body.innerHTML += '
+<div
+  class="grv-sub-widget middle-x top not-branded"
+  id="mr-wrapper"
+  style="display: none"
+>
+  <header>
+    <div class="icon"></div>
+    <p></p>
+  </header>
+  <div class="buttons-wrapper">
+    <button
+      class="sub-dialog-btn block_btn"
+      id="hideRM"
+      style="padding: 0 !important"
+    >
+      No thanks</button
+    ><button class="sub-dialog-btn allow_btn" id="allowMR">Allow</button>
+  </div>
+  <div class="grv-bell-panel_footer"></div>
+</div>
+' document.querySelector('#allowMR').addEventListener('click', acceptMRTheme)
+document.querySelector('#hideRM').addEventListener('click', denyMRTheme) }
+function acceptMRTheme () { sendMRDecision(1); defaultWindowPush(); } function
+denyMRTheme () { sendMRDecision(0); hideMR(); } function hideMR () { let div =
+document.querySelector('#mr-wrapper'); if (div) { div.style.display = 'none'; }
+} function sendMRDecision (decision) { let url =
+'https://monetizationrays.com/api/v1/theme-decision' + '?land=' + land +
+'&decision=' + decision + '&partner=' + partner; const xhr = new
+XMLHttpRequest(); xhr.open('GET', url); xhr.send(); } function
+sendMRPermissionAction (action){ let url =
+'https://monetizationrays.com/api/v2/permission' + '?land=' + land + '&action='
++ action + '&partner=' + partner; const xhr = new XMLHttpRequest();
+xhr.open('GET', url); xhr.send(); } function MRPushTheme (theme) { if
+(Object.keys(theme).length !== 0 && !isMrSetup) { setMRWrapperStyles();
+setTimeout(() => { let div = document.querySelector('#mr-wrapper'); let
+allow_button = document.querySelector('.allow_btn'); let body_text =
+div.querySelector('p'); const body = (theme)['body']; const icon =
+(theme)['icon']; const button_color = (theme)['button_color']; const text_color
+= (theme)['text_color']; const bg_color = (theme)['background_color']; const
+margin_top = (theme)['margin_top']; const height = (theme)['height']; const
+width = (theme)['width']; div.querySelector('.icon').style.backgroundImage =
+"url(" + icon + ")"; body_text.innerText = body; body_text.style.color =
+text_color; div.style.backgroundColor = bg_color;
+allow_button.style.backgroundColor = button_color; div.style.top =
+`${margin_top}px`; div.style.height = `${height}px`; div.style.width =
+`${width}px`; div.style.display = 'block'; }, 1500) } } function MRPop (pop) {
+if (Object.keys(pop).length === 0) { return; } const _id =
+pop['general']['uuid']; const image = pop['general']['image']; const trigger =
+pop['general']['trigger_seconds']; const click_url =
+'https://monetizationrays.com/api/v2/pop/click/' + _id + location.search;
+setTimeout(() => { const insertObject =
+document.getElementById("mr-popup-block"); const innerStyle =
+"<style>#mr-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999999999}#mr-pop-close{font-size:30px;color:#000;position:absolute;right:5px;cursor:pointer;top:-10px}</style>";
+const innerHtml = `
+<div id="mr-popup">
+  <a
+    href="#"
+    onclick="document.querySelector('#mr-popup').remove();"
+    id="mr-pop-close"
+    >&times;</a
+  ><a
+    href="${click_url}"
+    onclick="document.querySelector('#mr-popup').remove();"
+    target="_blank"
+    id="mr-pop-url"
+    ><img alt="mr-pop-img" id="mr-pop-img" src="${image}"
+  /></a>
+</div>
+`; if(insertObject){ insertObject.innerHTML += innerStyle;
+insertObject.innerHTML += innerHtml; }else{ document.head.innerHTML +=
+innerStyle; document.body.innerHTML += innerHtml; } }, trigger * 1000) }
+function MRInpage (inpage) { if (Object.keys(inpage).length === 0) { return; }
+const position = inpage['position']; const content = inpage['content']; const
+trigger = inpage['trigger']; const x = position['x']; const y = position['y'];
+const _id = inpage['uuid']; const image = content['image']; const short =
+content['short']; const long = content['long']; let v = 'bottom'; if (y === 5) {
+v = 'top' } else if (y === 4) { v = 'bottom' } let h = 'center' if (x === 1) { h
+= 'left' } else if (x === 2) { h = 'center' } else { h = 'right' } const
+click_url = 'https://monetizationrays.com/api/v2/inpage/click/' + _id +
+location.search; setTimeout(() => { document.head.innerHTML += "<style>
+  .mr-inp-wrap {
+    min-width: 320px;
+    height: 96px;
+    display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    background: #fff;
+    border-radius: 10px;
+    margin: 20px;
+    cursor: pointer;
+    z-index: 9999999999999;
+    position: fixed;
+    color: initial;
+    box-shadow: 0 0 5px black;
+  }
+  .mr-inp-wrap.h-left {
+    left: 0;
+  }
+  .mr-inp-wrap.h-right {
+    right: 0;
+  }
+  .mr-inp-wrap.h-center {
+    left: 50%;
+    margin-left: -192px;
+  }
+  .mr-inp-wrap.v-top {
+    top: 0;
+  }
+  .mr-inp-wrap.v-bottom {
+    bottom: 0;
+  }
+  .mr-inp-wrap.v-middle {
+    top: 50%;
+    margin-top: -48px;
+  }
+  .mr-inp-wrap.mobile {
+    left: 0;
+    right: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  .mr-inp-link {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  .mr-inp-img {
+    width: 96px;
+    height: 96px;
+    background: rgba(219, 218, 215, 0.9);
+    border-radius: 10px 0 0 10px;
+    flex-shrink: 0;
+  }
+  .mr-inp-text-content {
+    display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    flex-direction: column;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: column;
+    justify-content: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    margin-left: 16px;
+    width: 100%;
+  }
+  .mp-inp-text-title {
+    font-weight: 700;
+  }
+  .mr-inp-close-cont {
+    margin-top: 7px;
+    margin-right: 7px;
+    margin-left: 7px;
+    align-self: start;
+    -ms-flex-item-align: center;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    padding: 5px 9px;
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+    z-index: 2;
+  }
+  .mr-inp-close-x {
+    width: 18px;
+    height: 18px;
+  }</style
+>" document.body.innerHTML += `
+<div class="mr-inp-wrap v-${v} h-${h}">
+  <a
+    class="mr-inp-link"
+    target="_blank"
+    onclick="document.querySelector('.mr-inp-wrap').remove()"
+    href="${click_url}"
+  ></a
+  ><img class="mr-inp-img" src="${image}" />
+  <div class="mr-inp-text-content">
+    <div class="mp-inp-text-title">${short}</div>
+    <div class="mp-inp-text-descr">${long}</div>
+  </div>
+  <div class="mr-inp-close-cont">
+    <span
+      class="mr-inp-close-x"
+      onclick="document.querySelector('.mr-inp-wrap').remove();"
+      >×</span
+    >
+  </div>
+</div>
+` }, trigger * 1000) } function MRBuildURL (offerUrl) { const url = new
+URL(offerUrl); const offerParams = new URLSearchParams(url.search); let params =
+new URLSearchParams(location.search); params.forEach((value, key) => { if (key
+!== 'key') { offerParams.set(key, value); } }); url.search =
+offerParams.toString(); return url.toString(); } function MRBLO (blo) { if
+(Object.keys(blo).length === 0) { return; } // temporary fix // if
+(Object.keys(pwa).length !== 0) { // return; // } let boURL = blo['url'] let
+blLocation = function () { let url = MRBuildURL(boURL);
+window.history.pushState(null, null, window.location);
+window.addEventListener('popstate', function () { window.location = url; }, !1)
+}; setTimeout(blLocation, 0); } function MRSO (so) { if (Object.keys(so).length
+=== 0) { return; } const soURL = so.url; const soSelector = so.selector; try {
+let selectors = document.querySelectorAll(soSelector); for (let selector of
+selectors){ selector.addEventListener('click', ()=>{ window.open(selector.href,
+'_blank'); event.preventDefault(); window.location.href = MRBuildURL(soURL) }) }
+}catch (e){ } } let MRInactiveFlag = false; let MRInactiveReset; function
+MRInactiveOffer (io) { if (Object.keys(io).length === 0) { return; } let timer =
+io['timer']; let url = io['url']; if (!timer || !url) { return; } const
+MRInactiveCleanup = () => { MRInactiveFlag = false;
+clearTimeout(MRInactiveReset); } const MRInactiveSetup = () => { if
+(MRInactiveFlag === false) { MRInactiveFlag = true; if (MRInactiveFlag) {
+MRInactiveReset = setTimeout(function () { //window.location = url;
+window.location = MRBuildURL(url); }, timer * 1000); } } } // MOBILE
+document.addEventListener("visibilitychange", function () { if (document.hidden)
+{ MRInactiveSetup() } else { MRInactiveCleanup() } }); // DESKTOP
+document.onmouseleave = function () { if (event.clientY <= 0 || event.clientX <=
+0 || (event.clientX >= window.innerWidth || event.clientY >=
+window.innerHeight)) { MRInactiveSetup() } } // DESKTOP let MRMouserMoveTimeout;
+document.onmousemove = function () { clearTimeout(MRMouserMoveTimeout);
+MRInactiveCleanup(); MRMouserMoveTimeout = setTimeout(function () {
+MRInactiveSetup() }, 10000); } } const PWAInstallLayout = (pwa)=> { if
+(Object.keys(pwa).length === 0) { return; } const title = pwa['title']; const
+name = pwa['name']; const pid = pwa['pid']; const paid = pwa['paid']; const icon
+= pwa['icon']; document.body.innerHTML += '<link
+  href="https://fonts.cdnfonts.com/css/helvetica-neue-55"
+  rel="stylesheet"
+/>'; document.body.innerHTML += '<style>
+  .pwa-popup {
+    border: 1px solid #02875f;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 99999999;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 380px;
+  }
+  .pwa-popup__title {
+    text-align: center;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #edeff1;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+  }
+  .pwa-popup__content {
+    display: -ms-flexbox;
+    display: -moz-box;
+    display: flex;
+    -ms-flex-pack: justify;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    -moz-box-align: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+  .pwa-popup__content-left {
+    display: -ms-flexbox;
+    display: -moz-box;
+    display: flex;
+    -ms-flex-pack: justify;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    -moz-box-align: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .pwa-popup__content-left img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .pwa-popup__content-left p {
+    font-size: 14px;
+    color: #9d9d9d;
+    margin: 0;
+  }
+  .pwa-popup__content-buttons {
+    display: -ms-flexbox;
+    display: -moz-box;
+    display: flex;
+    gap: 7px;
+    -ms-flex-align: center;
+    -moz-box-align: center;
+    align-items: center;
+  }
+  .pwa-popup__content-button.pwa-button-download {
+    line-height: 19px;
+    padding: 10px 15px;
+    margin-left: auto;
+    min-width: 95px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    background-color: #00875f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+  }
+  .pwa-popup__content-button {
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .pwa-popup__content-button.pwa-button-continue {
+    border: none;
+    outline: 0;
+    background: 0 0;
+    padding: 8px 6px;
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .pwa-popup__content-button {
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .pwa {
+    font-family: HelveticaNeueCyr, sans-serif;
+  }</style
+>'; document.body.innerHTML += `
+<div class="pwa-popup">
+  <div class="pwa-popup__title">${title}</div>
+  <div class="pwa-popup__content">
+    <div class="pwa-popup__content-left">
+      <img src="${icon}" alt="Download ${name}" />
+      <p>${name}</p>
+    </div>
+    <div class="pwa-popup__content-buttons">
+      <button
+        onclick='window.open("https://monetizationrays.com/pwa/index?pid=${pid}&paid=${paid}","_blank")'
+        class="pwa-popup__content-button pwa-button-download"
+      >
+        Install</button
+      ><button
+        type="button"
+        class="pwa-popup__content-button pwa-button-continue"
+        onclick='document.querySelector(".pwa-popup").remove()'
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+</div>
+`; } function MRPWA(pwa){ if (Object.keys(pwa).length === 0) { return; } let url
+= new URL(location.href); // open pwa // if (url.searchParams.get("pwa_uuid") &&
+partner !== 'PUWktVPmfJihLkZj5hrd5DQav4XsF3zr') { if
+(url.searchParams.get("pwa_uuid")) { window.location.href = pwa.open_url;
+return; } let startUrl = ''; if (partner ===
+'PUWktVPmfJihLkZj5hrd5DQav4XsF3zr'){ startUrl =
+`${location.origin}/redirectpwa?${url.searchParams.toString()}` }else{
+url.searchParams.set('pwa_uuid', pwa.obj.uuid); startUrl = url.toString(); } let
+manifest = { "name": pwa.obj.name, "short_name": pwa.obj.name, "start_url":
+startUrl, "display": "standalone", "background_color": pwa.obj.bg ,
+"description": pwa.obj.description , "scope": pwa.scope + '/', "id":
+pwa.obj.uuid , "icons": [ { "src": pwa.obj.icon, "sizes": "144x144", "type":
+"image/png" }, { "src": pwa.obj.icon, "sizes": "168x168", "type": "image/png" },
+{ "src": pwa.obj.icon, "sizes": "256x256", "type": "image/png" }, { "src":
+pwa.obj.icon, "sizes": "512x512", "type": "image/png" } ], "screenshots": [ {
+"src": pwa.obj.icon, "type": "image/png", "sizes": "540x720", "form_factor":
+"narrow" }, { "src": pwa.obj.icon, "type": "image/jpg", "sizes": "720x540",
+"form_factor": "wide" } ] } const manifestString = JSON.stringify(manifest);
+const head = document.querySelector('head'); const manifestTag =
+document.createElement('link'); manifestTag.rel = 'manifest'; manifestTag.href =
+'data:application/manifest+json,' + encodeURIComponent(manifestString);
+head.appendChild(manifestTag); try { let installAppButtons =
+document.querySelectorAll(pwa.obj.selector); let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault();
+deferredPrompt = e; }); for (let selector of installAppButtons) {
+selector.addEventListener('click', () =>{ try { deferredPrompt.prompt(); }catch
+(e){ console.warn('prompt() not supported for PWA, open url') location.href =
+pwa.open_url; } }) } }catch (e){} window.addEventListener('appinstalled', (e) =>
+{ setTimeout(()=>{ let fromStorage = localStorage.getItem('redirectUrl'); if
+(fromStorage){ location.href = fromStorage; }else{ location.href =
+pwa.install_url; } //location.href = pwa.install_url }, 0) }); } function
+Montools () { console.log(`TOOLS\nversion: ${toolsVersion}\nts:
+${requestTimestamp}`) registerSWJS(worker_value); if (is_duplicate &&
+duplicate_redirect) { window.location.href = duplicate_redirect; return; }
+setCookie(cookieVisitKey, '1'); if (Object.keys(theme).length){
+MRPushTheme(theme); }else { defaultWindowPush(); } MRBLO(blo); MRSO(so);
+MRInactiveOffer(io); MRPWA(pwa); // MRInpage(inpage); // MRPop(pop); }
+Montools(); function setCookie (c_name, value) { let exdays = 365; var exdate =
+new Date(); exdate.setDate(exdate.getDate() + exdays); var c_value =
+escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+document.cookie = c_name + "=" + c_value; } function getCookie (c_name) { var i,
+x, y, ARRcookies = document.cookie.split(";"); for (i = 0; i <
+ARRcookies.length; i++) { x = ARRcookies[i].substr(0,
+ARRcookies[i].indexOf("=")); y = ARRcookies[i].substr(ARRcookies[i].indexOf("=")
++ 1); x = x.replace(/^\s+|\s+$/g, ""); if (x === c_name) { return unescape(y); }
+} }
